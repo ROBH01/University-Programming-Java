@@ -1,0 +1,18 @@
+Employee number 1
+Name: rob
+Job title: ceo
+Age: 24
+Salary: £455.455,00
+--------------------
+Employee number 2
+Name: asa
+Job title: sdfa
+Age: 24
+Salary: £6.545.454,00
+--------------------
+Employee number 3
+Name: asaij
+Job title: sas
+Age: 22
+Salary: £22.545,00
+--------------------

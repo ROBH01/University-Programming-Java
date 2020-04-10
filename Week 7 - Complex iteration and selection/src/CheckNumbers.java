@@ -42,7 +42,7 @@ public class CheckNumbers {
 			System.out.print("\nType 1 to stop or 2 to test another number: ");
 			userNumber = scan.nextInt();
 
-			while (!(userNumber == 1) && !(userNumber == 2)) {
+			while (userNumber != 1 && userNumber != 2) {
 				System.out.print("Type 1 to stop or 2 to test another number: ");
 				userNumber = scan.nextInt();
 			}

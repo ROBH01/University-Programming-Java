@@ -6,7 +6,7 @@
  * Week 12
  */
 
-public class NewSalary{
+public class NewSalary {
 
 	public static void main(String[] args){
 		int currentSalary = 23000;

@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Java 8.iml" filepath="$PROJECT_DIR$/Java 8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Speeding Ticket Assignment/Speeding Ticket Assignment.iml" filepath="$PROJECT_DIR$/Speeding Ticket Assignment/Speeding Ticket Assignment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week 18 - Sorting and Searching Algorithms/Speeding Ticket Assignment.iml" filepath="$PROJECT_DIR$/Week 18 - Sorting and Searching Algorithms/Speeding Ticket Assignment.iml" />
       <module fileurl="file://$PROJECT_DIR$/Week 1 - Introduction to Java 8/Week 1 - Introduction to Java 8.iml" filepath="$PROJECT_DIR$/Week 1 - Introduction to Java 8/Week 1 - Introduction to Java 8.iml" />
       <module fileurl="file://$PROJECT_DIR$/Week 10 - Objects and Methods/Week 10 - Objects and Methods.iml" filepath="$PROJECT_DIR$/Week 10 - Objects and Methods/Week 10 - Objects and Methods.iml" />
       <module fileurl="file://$PROJECT_DIR$/Week 11 - Collections/Week 11 - Collections.iml" filepath="$PROJECT_DIR$/Week 11 - Collections/Week 11 - Collections.iml" />

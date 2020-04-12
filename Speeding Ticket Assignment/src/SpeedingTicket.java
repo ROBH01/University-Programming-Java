@@ -12,14 +12,9 @@
  */
 
 
-public class SpeedingTicket {
-	private int warning = 4;
-	private int fine1 = 10;
-	private int fine2 = 15;
-	private int fine3 = 20;
+class SpeedingTicket {
 	private SpeedingTicketValidation validation = new SpeedingTicketValidation();
-
-
+	
 	/**
 	 * Method which takes in the parameters <code>speedLimit</code> and <code>vehicleSpeed</code> from the GUI class
 	 * and returns a string containing the appropriate <code>result</code> back to the GUI class. It can
@@ -28,48 +23,42 @@ public class SpeedingTicket {
 	 * @param vehicleSpeed Speed of the vehicle in mph
 	 * @return A string containing the appropriate result based on the speed limit and the speed of the car
 	 */
-	public String getResult(int speedLimit, int vehicleSpeed) {
+	String getResult(int speedLimit, int vehicleSpeed) {
 		String result = "";
+		final int SPEED_OVER_FOR_WARNING = 4;
+		final int SPEED_OVER_FOR_LEVEL1_FINE = 10;
+		final int SPEED_OVER_FOR_LEVEL2_FINE = 15;
+		final int SPEED_OVER_FOR_LEVEL3_FINE = 20;
 
-		if (vehicleSpeed < 1)
-		{
-			validation.vehicleSpeedNotLowerThan1();
-		}
-		else if (vehicleSpeed > 275)
-		{
-			validation.vehicleSpeedNotHigherThan275();
-		}
-		else if (speedLimit > 70)
-		{
-			validation.speedLimitNoHigherThan70();
-		}
-		else if (speedLimit < 5)
-		{
+		if (vehicleSpeed < 5) {
 			validation.speedLimitNoLowerThan5();
 		}
-		else if (vehicleSpeed <= speedLimit)
-		{
+		else if (vehicleSpeed > 275) {
+			validation.vehicleSpeedNotHigherThan275();
+		}
+		else if (speedLimit > 150) {
+			validation.speedLimitNoHigherThan150();
+		}
+		else if (speedLimit < 5) {
+			validation.speedLimitNoLowerThan5();
+		}
+		else if (vehicleSpeed <= speedLimit) {
 			result = "Under the speed limit - no fine";
 		}
-		else if (vehicleSpeed <= speedLimit+warning)
-		{
-			result = vehicleSpeed - speedLimit+" miles over the limit, please be careful of your speed in future";
+		else if (vehicleSpeed <= speedLimit + SPEED_OVER_FOR_WARNING) {
+			result = vehicleSpeed - speedLimit + " miles over the limit, please be careful of your speed in future";
 		}
-		else if (vehicleSpeed < speedLimit+fine1)
-		{
-			result = vehicleSpeed - speedLimit+" miles over limit, fined £50";
+		else if (vehicleSpeed <= speedLimit + SPEED_OVER_FOR_LEVEL1_FINE) {
+			result = vehicleSpeed - speedLimit + " miles over limit, fined Â£50";
 		}
-		else if (vehicleSpeed < speedLimit+fine2)
-		{
-			result = vehicleSpeed - speedLimit+" miles over limit, fined £100";
+		else if (vehicleSpeed <= speedLimit + SPEED_OVER_FOR_LEVEL2_FINE) {
+			result = vehicleSpeed - speedLimit + " miles over limit, fined Â£100";
 		}
-		else if (vehicleSpeed < speedLimit+fine3)
-		{
-			result = vehicleSpeed - speedLimit+" miles over limit, fined £150 and 3 points deducted";
+		else if (vehicleSpeed <= speedLimit + SPEED_OVER_FOR_LEVEL3_FINE) {
+			result = vehicleSpeed - speedLimit + " miles over limit, fined Â£150 and 3 points deducted";
 		}
-		else
-		{
-			result = vehicleSpeed - speedLimit+" miles over limit, fined £1000 and disqualified";
+		else {
+			result = vehicleSpeed - speedLimit + " miles over limit, fined Â£1000 and disqualified";
 		}
 		return result;
 	}

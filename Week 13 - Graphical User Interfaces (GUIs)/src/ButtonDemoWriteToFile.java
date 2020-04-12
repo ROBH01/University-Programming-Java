@@ -25,9 +25,10 @@ class ButtonDemoWriteToFile {
 			out.println("Address:  " + address);
 			out.println("Course:   " + course);
 			out.print("Phone:    " + phone);
-			out.close(); 
-		} catch (IOException ex) {
-			System.err.println("An error has occured");
+			out.close();
+		}
+		catch (IOException ex) {
+			System.err.println("An error has occurred");
 		}
 	}
 }

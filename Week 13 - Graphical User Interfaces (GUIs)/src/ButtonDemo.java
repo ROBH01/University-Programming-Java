@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 public class ButtonDemo {
 	private JTextField txtName, txtAddress, txtPhone, txtCourse;
-	private JButton btnUpper, btnLower, btnExit, btnClear, btnSave;
 	private JPanel panel;
 	private JFrame frame;
 
@@ -15,11 +14,6 @@ public class ButtonDemo {
 		addButtons();
 		frame.add(panel);
 		frame.setVisible(true);
-		btnUpper.addActionListener(new UpperCaseHandler()); // buttons here because they require an action
-		btnLower.addActionListener(new LowerCaseHandler());
-		btnExit.addActionListener(new ExitHandler());
-		btnClear.addActionListener(new ClearHandler());
-		btnSave.addActionListener(new SaveHandler());
 	}
 
 	private void createForm() {
@@ -70,66 +64,64 @@ public class ButtonDemo {
 	}
 
 	private void addButtons() { // slides 31,32
-		btnUpper = new JButton ("UpperCase");
+		JButton btnUpper = new JButton("UpperCase");
 		btnUpper.setBounds(50, 200, 100, 20);
+		btnUpper.addActionListener(new GenericHandler());
 		panel.add(btnUpper);
 
-		btnLower = new JButton ("LowerCase");
+		JButton btnLower = new JButton("LowerCase");
+		btnLower.addActionListener(new GenericHandler());
 		btnLower.setBounds(150, 200, 100, 20);
 		panel.add(btnLower);
 
-		btnExit = new JButton ("Exit");
+		JButton btnExit = new JButton("Exit");
 		btnExit.setBackground(Color.RED);
+		btnExit.addActionListener(new GenericHandler());
 		btnExit.setBounds(350, 200, 100, 20); 
 		panel.add(btnExit);
 
-		btnClear = new JButton("Clear");
+		JButton btnClear = new JButton("Clear");
 		btnClear.setBackground(Color.yellow);
 		btnClear.setBounds(250, 200, 100, 20);
+		btnClear.addActionListener(new GenericHandler());
 		panel.add(btnClear);
 
-		btnSave = new JButton("Save");
-		btnSave.setBackground(Color.green);
-		btnSave.setBounds(200, 220, 100, 20);
-		panel.add(btnSave);
+		JButton writeToFile = new JButton("Write student file");
+		writeToFile.setBackground(Color.green);
+		writeToFile.addActionListener(new GenericHandler());
+		writeToFile.setBounds(180, 225, 140, 20);
+		panel.add(writeToFile);
 	}
 
+	// In-Class Handlers
 
-	class UpperCaseHandler implements ActionListener { // set name, address, course to uppercase
+	class GenericHandler implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			txtName.setText(txtName.getText().toUpperCase());
-			txtAddress.setText(txtAddress.getText().toUpperCase());
-			txtCourse.setText(txtCourse.getText().toUpperCase());
-		}
-	}
-
-	class LowerCaseHandler implements ActionListener { // set name, address, course to lowercase
-		public void actionPerformed(ActionEvent event) {
-			txtName.setText(txtName.getText().toLowerCase());
-			txtAddress.setText(txtAddress.getText().toLowerCase());
-			txtCourse.setText(txtCourse.getText().toLowerCase());
-		}
-	}
-
-	class ExitHandler implements ActionListener { // exits
-		public void actionPerformed(ActionEvent event) {
-			System.exit(0);
-		}
-	}
-
-	class ClearHandler implements ActionListener { // clears all the data from the form
-		public void actionPerformed(ActionEvent event) {
-			txtName.setText("");
-			txtAddress.setText("");
-			txtCourse.setText("");
-			txtPhone.setText("");
-		}
-	}
-
-	class SaveHandler implements ActionListener { // saves all the data to a file
-		public void actionPerformed(ActionEvent event) {
-			ButtonDemoWriteToFile writing = new ButtonDemoWriteToFile(txtName.getText(), txtAddress.getText(), txtCourse.getText(), txtPhone.getText());
-			writing.writeToFile();
+			String operation = event.getActionCommand();
+			if (operation.equalsIgnoreCase("UpperCase")) {
+				txtName.setText(txtName.getText().toUpperCase());
+				txtAddress.setText(txtAddress.getText().toUpperCase());
+				txtCourse.setText(txtCourse.getText().toUpperCase());
+			}
+			else if (operation.equalsIgnoreCase("LowerCase")) {
+				txtName.setText(txtName.getText().toLowerCase());
+				txtAddress.setText(txtAddress.getText().toLowerCase());
+				txtCourse.setText(txtCourse.getText().toLowerCase());
+			}
+			else if (operation.equalsIgnoreCase("Exit")) {
+				System.exit(0);
+			}
+			else if (operation.equalsIgnoreCase("Clear")) {
+				txtName.setText("");
+				txtAddress.setText("");
+				txtCourse.setText("");
+				txtPhone.setText("");
+			}
+			else if (operation.equalsIgnoreCase("Write student file")) {
+				ButtonDemoWriteToFile writing = new ButtonDemoWriteToFile(txtName.getText(), txtAddress.getText(),
+						txtCourse.getText(), txtPhone.getText());
+				writing.writeToFile();
+			}
 		}
 	}
 	

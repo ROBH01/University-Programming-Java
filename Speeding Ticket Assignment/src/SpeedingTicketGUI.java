@@ -1,281 +1,427 @@
+/**
+ * @author Robert Giurgiulescu <s4820793@bournemouth.ac.uk>
+ * @id number s4820793
+ * @version 6
+ * 
+ * Date: 06/04/2018
+ * Class (2/4)
+ * 
+ * This program ...
+ */
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 
 
 public class SpeedingTicketGUI {
-	private JLabel lblPicture,lblDriverAddress, lblDriverCity, lblDriverRoad, lblDriverPostCode, lblDriverFlatNo, lblTicketInformation, lblDate, lblTime, lblLocation, lblRegNo, lblSpeedLimit, lblVehicleSpeed, lblResult;
-	private JTextField txtDate, txtTime, txtLocation, txtRegNo, txtDriverCity, txtDriverRoad, txtDriverPostCode, txtDriverFlatNo, txtSpeedLimit, txtVehicleSpeed, txtResult;
-	private JButton btnCalculate, btnClear, btnExit, btnGenerateLetter;
+	private JLabel lblHourSecondColon, lblPicture, lblTicketInformation, lblDate, lblTime, lblLocation, lblRegNo, lblSpeedLimit, lblVehicleSpeed, lblResult, lblfileName;
+	private JTextField txtLocation, txtRegNo, txtSpeedLimit, txtVehicleSpeed, txtResult, txtFileName;
+	private JButton btnCalculate, btnClear, btnExit, btnGenerateLetter, btnInfo;
 	private JPanel panel;
 	private JFrame frame;
-	private DateFormat df, tf;
+	private JComboBox<String> jcbDay, jcbMonth, jcbYear, jcbHour, jcbMinute, jcbTimeFormat;
+	private SpeedingTicket process = new SpeedingTicket();
+	private SpeedingTicketPrint print = new SpeedingTicketPrint();
+	private SpeedingTicketValidation validation = new SpeedingTicketValidation();
 
-	SpeedingTicket process = new SpeedingTicket();
 
 	public SpeedingTicketGUI() {
 		createForm();
 		addFields();
 		addButtons();
-		picture();
+		addComboBoxes();
 		frame.add(panel); 	
 		frame.setVisible(true);
-		
-	}
-	public void picture() {
-		lblPicture = new JLabel(new ImageIcon("12.png"));
-		lblPicture.setBounds(0,	0, 800, 540);  //larghezza, altezza
-		lblPicture.setVisible(true);
-		lblPicture.invalidate();
-		panel.add(lblPicture);   
+		addPanelBackgroundPicture();
 	}
 
 	public void createForm() {
 		frame = new JFrame();
 		frame.setTitle("The speeding ticket calculator");
-		frame.setSize(805, 565);//710, 550);// change (X,Y)
+		frame.setSize(805, 565);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		panel = new JPanel();
-		//frame.add(panel); 	
-		//frame.setVisible(true);
-		panel.setLayout(null);   
+		panel.setLayout(null); 
 	}
 
-	public Font labelsAndTextFieldsFont() {
-		return new Font("David", Font.PLAIN, 18); //a method for labels and text fields - fonts can be modified only once!
+	public void addPanelBackgroundPicture() {
+		lblPicture = new JLabel(new ImageIcon("12.png")); // please note that to display the picture, the source must be changed
+		lblPicture.setBounds(0,	0, 800, 540); 
+		lblPicture.setVisible(true);
+		lblPicture.invalidate();
+		panel.add(lblPicture);   
 	}
 
-	public Color textFieldsBackgroundColor() {  //a method for text fields - color can be modified only once!
+	public Font changeLabelsAndTextFieldsFont() {  //this method changes the font for all labels and text fields.
+		return new Font("David", Font.PLAIN, 18); 
+	}
+
+	public Color changeTextFieldsBackgroundColor() {  //this method changes the background color for all text fields.
 		return Color.LIGHT_GRAY;
 	}
 
-	public Color labelsAndTextFieldsForegroundColor() {  //a method for labels and text fields - color can be modified only once!
+	public Color changeLabelsAndTextFieldsForegroundColor() {  //this method changes the foreground color for all labels and text fields.
 		return Color.black;
 	}
 
-	public Font buttonsFont() {
-		return new Font("David", Font.BOLD, 14);
+	public Font changeFontButtons() { //this method changes the font name, style and size for all the buttons.
+		return new Font("Harlow Solid", Font.BOLD, 14);
 	}
 
-	public void addFields() {
+	public Color changeTextFieldsAndComboBoxesBorderColor() {
+		return Color.gray;
+	}
 
-		lblDriverAddress = new JLabel("Driver Address");
-		lblDriverAddress.setBounds(320, 25, 160, 20);
-		lblDriverAddress.setFont(new Font("Algerian", Font.PLAIN, 20));
-		lblDriverAddress.toString().toUpperCase();
-		panel.add(lblDriverAddress);
+	public Color getRedBrightColor() {
+		Color brightRed = new Color(248, 89, 67);
+		return brightRed;
+	}
 
-		lblDriverCity = new JLabel("City");   
-		lblDriverCity.setBounds(20, 70, 40, 20);
-		lblDriverCity.setFont(labelsAndTextFieldsFont()); 
-		lblDriverCity.setForeground(labelsAndTextFieldsForegroundColor());
-		panel.add(lblDriverCity);
-		txtDriverCity = new JTextField("");
-		txtDriverCity.setBackground(textFieldsBackgroundColor());
-		txtDriverCity.setForeground(labelsAndTextFieldsForegroundColor());
-		txtDriverCity.setBounds(120, 70, 150, 25);
-		txtDriverCity.setFont(labelsAndTextFieldsFont());
-		panel.add(txtDriverCity);
+	public Color getYellowBrightColor() {
+		Color brightYellow = new Color(250, 246, 142);
+		return brightYellow;
+	}
 
-		lblDriverRoad = new JLabel("Road");
-		lblDriverRoad.setBounds(715, 70, 40, 30);
-		lblDriverRoad.setFont(labelsAndTextFieldsFont());
-		lblDriverRoad.setForeground(labelsAndTextFieldsForegroundColor());
-		panel.add(lblDriverRoad);
-		txtDriverRoad = new JTextField("");
-		txtDriverRoad.setBounds(530, 70, 150, 25);
-		txtDriverRoad.setBackground(textFieldsBackgroundColor());
-		txtDriverRoad.setForeground(labelsAndTextFieldsForegroundColor());
-		txtDriverRoad.setFont(labelsAndTextFieldsFont());
-		panel.add(txtDriverRoad);
+	public Color getGreenBrightColor() {
+		Color brightGreen = new Color(182, 247, 165); 
+		return brightGreen;
+	}
 
-		lblDriverPostCode = new JLabel("Post Code"); 
-		lblDriverPostCode.setBounds(20, 100, 80, 20);
-		lblDriverPostCode.setFont(labelsAndTextFieldsFont());
-		lblDriverPostCode.setForeground(labelsAndTextFieldsForegroundColor());
-		panel.add(lblDriverPostCode);
-		txtDriverPostCode = new JTextField("");
-		txtDriverPostCode.setBounds(120, 100, 150, 25); 
-		txtDriverPostCode.setBackground(textFieldsBackgroundColor());
-		txtDriverPostCode.setForeground(labelsAndTextFieldsForegroundColor());
-		txtDriverPostCode.setFont(labelsAndTextFieldsFont());
-		panel.add(txtDriverPostCode);
+	public void changeResultBackgroundColorDependingOnFine(String outcome) {
 
-		lblDriverFlatNo = new JLabel("Flat No");
-		lblDriverFlatNo.setBounds(715, 100, 100, 30);
-		lblDriverFlatNo.setFont(labelsAndTextFieldsFont());
-		lblDriverFlatNo.setForeground(labelsAndTextFieldsForegroundColor());
-		panel.add(lblDriverFlatNo);
-		txtDriverFlatNo = new JTextField("");
-		txtDriverFlatNo.setBounds(530, 100, 150, 25);
-		txtDriverFlatNo.setBackground(textFieldsBackgroundColor());
-		txtDriverFlatNo.setForeground(labelsAndTextFieldsForegroundColor());
-		txtDriverFlatNo.setFont(labelsAndTextFieldsFont());
-		panel.add(txtDriverFlatNo);
+		if(outcome.contains("Under the speed limit - no fine.")) {
+			txtResult.setBackground(getGreenBrightColor());
+			txtResult.setText(outcome);
+		}
+		else if (outcome.contains("miles over the limit, please be careful of your speed in future")) {
+			txtResult.setBackground(getYellowBrightColor());
+			txtResult.setText(outcome);
+		}
+		else if(outcome.contains("miles over limit, fined £50") || outcome.contains("miles over limit, fined �100") ||
+				outcome.contains("miles over limit, fined £150 and 3 points") ||
+				outcome.contains("miles over limit, fined £1000 and disqualified"))
+		{
+			txtResult.setBackground(getRedBrightColor());
+			txtResult.setText(outcome);
+		}
+		else {
+			txtResult.setBackground(changeTextFieldsBackgroundColor());
+			txtResult.setText("");
+		}
+	}
 
-		/////////////////////////////////////////////////////////////////////////
+	public String[] storeDays() {
+		String[] maxMonthDays = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+		return maxMonthDays;
+	}
+
+	public String[] storeMonths() {
+		String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+		return months;
+	}
+
+	public ArrayList<String> storeYears() {
+		ArrayList<String> yearsUntilNow = new ArrayList<String>();
+
+		for(int year = Calendar.getInstance().get(Calendar.YEAR)-1; year <= Calendar.getInstance().get(Calendar.YEAR); year++) {
+			yearsUntilNow.add(year+"");
+		}
+		Collections.reverse(yearsUntilNow);
+		return yearsUntilNow;
+	}
+
+	public String[] storeHours() {
+		String[] hours = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+		return hours;
+	}
+
+	public ArrayList<String> storeMinutes() {
+		ArrayList<String> minutes = new ArrayList<String>();
+
+		for (int a = 0; a <= 60; a++){
+			if(a==0 || a==1 || a==2 || a==3 || a==4 || a==5 || a==6 || a==7 || a==8 || a==9) {
+				minutes.add("0"+a);
+			}
+			else {
+				minutes.add(a+"");
+			}
+		}
+		return minutes;
+	}
+
+	public String[] storeTimeFormat() {
+		String[] format = {"am", "pm"};
+		return format;
+	}
+
+	public String getFullDate() {
+		String day = (String) jcbDay.getSelectedItem().toString();
+		String month = (String) jcbMonth.getSelectedItem().toString();
+		String year = (String) jcbYear.getSelectedItem().toString();
+		return  day+" "+month+" "+year;
+	}
+
+	public String getFullTime() {
+		String hour = jcbHour.getSelectedItem().toString();
+		String minute = jcbMinute.getSelectedItem().toString();
+		String timeFormat = jcbTimeFormat.getSelectedItem().toString();
+		String time = hour+":"+minute+" "+timeFormat;
+		return time;
+	}
+
+	public void addAllMonthsButFebruary() {
+		jcbMonth.addItem("January");
+		jcbMonth.addItem("March");
+		jcbMonth.addItem("April");
+		jcbMonth.addItem("May");
+		jcbMonth.addItem("June");
+		jcbMonth.addItem("July");
+		jcbMonth.addItem("August");
+		jcbMonth.addItem("September");
+		jcbMonth.addItem("October");
+		jcbMonth.addItem("November");
+		jcbMonth.addItem("December");
+	}
+
+	public void addFields() {  //this method adds all the necessary fields.
 
 		lblTicketInformation = new JLabel("Ticket Information");
-		lblTicketInformation.setBounds(300, 155, 200, 20);
+		lblTicketInformation.setBounds(300, 25, 200, 20);
 		lblTicketInformation.setFont(new Font("Algerian", Font.PLAIN, 20));
 		panel.add(lblTicketInformation);
 
-		////////////////////////////////
-
-
-		/////////////////// date needs checking, bad validation
 		lblDate = new JLabel("Date");
-		lblDate.setBounds(20, 200, 40, 20);
-		lblDate.setFont(labelsAndTextFieldsFont());
-		lblDate.setForeground(labelsAndTextFieldsForegroundColor());
+		lblDate.setBounds(20, 70, 40, 20);
+		lblDate.setFont(changeLabelsAndTextFieldsFont());
+		lblDate.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(lblDate);
-		df = new SimpleDateFormat("dd/MM/yyyy");
-		txtDate = new JFormattedTextField(df);
-		txtDate.setBounds(120, 200, 150, 25);
-		txtDate.setHorizontalAlignment(JTextField.CENTER);
-		txtDate.setBackground(textFieldsBackgroundColor());
-		txtDate.setForeground(labelsAndTextFieldsForegroundColor());
-		txtDate.setFont(labelsAndTextFieldsFont());
-		panel.add(txtDate);
 
 		lblLocation = new JLabel("Location");
-		lblLocation.setBounds(20, 230, 100, 20);
-		lblLocation.setFont(labelsAndTextFieldsFont());
-		lblLocation.setForeground(labelsAndTextFieldsForegroundColor());
+		lblLocation.setBounds(20, 100, 80, 20);
+		lblLocation.setFont(changeLabelsAndTextFieldsFont());
+		lblLocation.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(lblLocation);
-		txtLocation = new JTextField(""); 
-		txtLocation.setBounds(120, 230, 150, 25);
-		txtLocation.setBackground(textFieldsBackgroundColor());
+		txtLocation = new JTextField("London"); 
+		txtLocation.setBounds(120, 100, 220, 25);
+		txtLocation.setToolTipText("Name of the place where the car has been spotted");
+		txtLocation.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
 		txtLocation.setHorizontalAlignment(JTextField.CENTER);
-		txtLocation.setForeground(labelsAndTextFieldsForegroundColor());
-		txtLocation.setFont(labelsAndTextFieldsFont());
+		txtLocation.setFont(changeLabelsAndTextFieldsFont());
+		txtLocation.setBackground(changeTextFieldsBackgroundColor());
+		txtLocation.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(txtLocation);
 
 		lblTime = new JLabel("Time");
-		lblTime.setBounds(715, 200, 60, 30);
-		lblTime.setFont(labelsAndTextFieldsFont());
-		lblTime.setForeground(labelsAndTextFieldsForegroundColor());
+		lblTime.setBounds(715, 70, 40, 30);
+		lblTime.setFont(changeLabelsAndTextFieldsFont());
+		lblTime.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(lblTime);	
-		tf = new SimpleDateFormat("HH:mm");
-		txtTime = new JFormattedTextField(tf);	
-		txtTime.setBounds(530, 200, 150, 25);
-		txtTime.setHorizontalAlignment(JTextField.CENTER);
-		txtTime.setBackground(textFieldsBackgroundColor());
-		txtTime.setForeground(labelsAndTextFieldsForegroundColor());
-		txtTime.setFont(labelsAndTextFieldsFont());
-		panel.add(txtTime);
 
-		lblRegNo = new JLabel("Reg no");
-		lblRegNo.setBounds(715, 230, 100, 30); 
-		lblRegNo.setFont(labelsAndTextFieldsFont());
-		lblRegNo.setForeground(labelsAndTextFieldsForegroundColor());
+		lblHourSecondColon = new JLabel(":");
+		lblHourSecondColon.setBounds(508, 70, 10, 25);
+		lblHourSecondColon.setFont(changeLabelsAndTextFieldsFont());
+		lblHourSecondColon.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(lblHourSecondColon);	
+
+		lblRegNo = new JLabel("Reg-no");
+		lblRegNo.setBounds(715, 100, 100, 30); 
+		lblRegNo.setFont(changeLabelsAndTextFieldsFont());
+		lblRegNo.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(lblRegNo);
-		txtRegNo = new JTextField("");
-		txtRegNo.setBounds(530, 230, 150, 25);
+		txtRegNo = new JTextField("8888888");
+		txtRegNo.setBounds(450, 100, 220, 25);
+		txtRegNo.setToolTipText("Registration number of the car");
+		txtRegNo.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
 		txtRegNo.setHorizontalAlignment(JTextField.CENTER);
-		txtRegNo.setBackground(textFieldsBackgroundColor());
-		txtRegNo.setForeground(labelsAndTextFieldsForegroundColor());
-		txtRegNo.setFont(labelsAndTextFieldsFont());
+		txtRegNo.setFont(changeLabelsAndTextFieldsFont());
+		txtRegNo.setBackground(changeTextFieldsBackgroundColor());
+		txtRegNo.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(txtRegNo);
 
 		lblSpeedLimit = new JLabel("Speed Limit");
-		lblSpeedLimit.setBounds(150, 300, 100, 30); 
-		lblSpeedLimit.setFont(labelsAndTextFieldsFont());
-		lblSpeedLimit.setForeground(labelsAndTextFieldsForegroundColor());
+		lblSpeedLimit.setBounds(150, 160, 100, 30); 
+		lblSpeedLimit.setFont(changeLabelsAndTextFieldsFont());
+		lblSpeedLimit.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(lblSpeedLimit);
-		txtSpeedLimit = new JTextField("");
-		txtSpeedLimit.setBounds(300, 300, 85, 30);
+		txtSpeedLimit = new JTextField("50");
+		txtSpeedLimit.setBounds(300, 160, 85, 30);
+		txtSpeedLimit.setToolTipText("Speed limit in the location");
+		txtSpeedLimit.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
 		txtSpeedLimit.setHorizontalAlignment(JTextField.CENTER);
-		txtSpeedLimit.setBackground(textFieldsBackgroundColor());
-		txtSpeedLimit.setForeground(labelsAndTextFieldsForegroundColor());
-		txtSpeedLimit.setFont(labelsAndTextFieldsFont());
+		txtSpeedLimit.setFont(changeLabelsAndTextFieldsFont());
+		txtSpeedLimit.setBackground(changeTextFieldsBackgroundColor());
+		txtSpeedLimit.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(txtSpeedLimit);
 
 		lblVehicleSpeed = new JLabel("Vehicle Speed");
-		lblVehicleSpeed.setBounds(555, 300, 120, 30); 
-		lblVehicleSpeed.setFont(labelsAndTextFieldsFont());
-		lblVehicleSpeed.setForeground(labelsAndTextFieldsForegroundColor());
+		lblVehicleSpeed.setBounds(555, 160, 120, 30); 
+		lblVehicleSpeed.setFont(changeLabelsAndTextFieldsFont());
+		lblVehicleSpeed.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(lblVehicleSpeed);
-		txtVehicleSpeed = new JTextField("");
-		txtVehicleSpeed.setBounds(410, 300, 85, 30);
+		txtVehicleSpeed = new JTextField("70");
+		txtVehicleSpeed.setBounds(410, 160, 85, 30);
+		txtVehicleSpeed.setToolTipText("Speed of the vehicle");
+		txtVehicleSpeed.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
 		txtVehicleSpeed.setHorizontalAlignment(JTextField.CENTER);
-		txtVehicleSpeed.setBackground(textFieldsBackgroundColor());
-		txtVehicleSpeed.setForeground(labelsAndTextFieldsForegroundColor());
-		txtVehicleSpeed.setFont(labelsAndTextFieldsFont());
+		txtVehicleSpeed.setFont(changeLabelsAndTextFieldsFont());
+		txtVehicleSpeed.setBackground(changeTextFieldsBackgroundColor());
+		txtVehicleSpeed.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(txtVehicleSpeed);
 
 		lblResult = new JLabel("Result");
-		lblResult.setBounds(375, 380, 80, 25);
-		lblResult.setFont(labelsAndTextFieldsFont());
-		lblResult.setForeground(labelsAndTextFieldsForegroundColor());
+		lblResult.setBounds(375, 245, 80, 25);
+		lblResult.setFont(changeLabelsAndTextFieldsFont());
+		lblResult.setForeground(changeLabelsAndTextFieldsForegroundColor());
 		panel.add(lblResult);	
 		txtResult = new JTextField("");
-		txtResult.setHorizontalAlignment(JTextField.CENTER);  /// i don t need this to display result actually.. decide later
-		txtResult.setFont(labelsAndTextFieldsFont()); 
-		txtResult.setBounds(170, 410, 470, 28); 
-		txtResult.setBackground(textFieldsBackgroundColor());
-		txtResult.setForeground(labelsAndTextFieldsForegroundColor());
+		txtResult.setBounds(170, 275, 470, 30); 
+		txtResult.setToolTipText("The result will appear here");
+		txtResult.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
+		txtResult.setHorizontalAlignment(JTextField.CENTER); 
+		txtResult.setFont(changeLabelsAndTextFieldsFont()); 
+		txtResult.setBackground(changeTextFieldsBackgroundColor());
+		txtResult.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		txtResult.setEditable(false);
 		panel.add(txtResult);	
+
+		lblfileName = new JLabel("File name");
+		lblfileName.setBounds(170, 330, 80, 30);
+		lblfileName.setFont(changeLabelsAndTextFieldsFont());
+		lblfileName.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(lblfileName);
+		txtFileName = new JTextField(""); 
+		txtFileName.setBounds(250, 330, 150, 25);
+		txtFileName.setToolTipText("Name of the file only");
+		txtFileName.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
+
+		txtFileName.setFont(changeLabelsAndTextFieldsFont());
+		txtFileName.setBackground(changeTextFieldsBackgroundColor());
+		txtFileName.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(txtFileName);
 	}
 
+	public void addButtons() {  //this method adds all the necessary buttons.
 
+		btnInfo = new JButton();
+		btnInfo.setIcon(new ImageIcon("abc.png"));
+		btnInfo.setBounds(755, 10, 36, 36);
+		btnInfo.setToolTipText("Click here for info");
+		btnInfo.addActionListener(new InfoHandler());
+		panel.add(btnInfo);
 
-	public void addButtons() {    
-		btnCalculate = new JButton ("CALCULATE");
-		btnCalculate.setBounds(240, 350, 120, 25);
-		btnCalculate.setToolTipText("Click here to get the result");
-		btnCalculate.setForeground(Color.green);
-		btnCalculate.setFont(buttonsFont());
+		btnCalculate = new JButton ("Calculate");
+		btnCalculate.setBounds(240, 210, 120, 25);
+		btnCalculate.setFont(changeFontButtons());
 		btnCalculate.addActionListener(new CalculateHandler());
+		btnCalculate.setForeground(Color.black);
+		btnCalculate.setToolTipText("Click here to get the result without printing");
 		panel.add(btnCalculate);
 
-		btnClear = new JButton ("CLEAR");
-		btnClear.setBounds(440, 350, 120, 25);
-		btnClear.setForeground(Color.yellow);
-		btnClear.setToolTipText("Click here to clear all the fields");
-		btnClear.setFont(buttonsFont());
+		btnClear = new JButton ("Clear all");
+		btnClear.setBounds(440, 210, 120, 25);
+		btnClear.setFont(changeFontButtons());
 		btnClear.addActionListener(new ClearHandler());
+		btnClear.setForeground(Color.black);
+		btnClear.setToolTipText("Click here to clear all the fields");
 		panel.add(btnClear);
 
-		btnGenerateLetter = new JButton ("GENERATE LETTER");
-		btnGenerateLetter.setBounds(205, 460, 180, 34);
+		btnGenerateLetter = new JButton ("Save and write letter");
+		btnGenerateLetter.setBounds(410, 330, 230, 25); 
+		btnGenerateLetter.setFont(changeFontButtons());
+		btnGenerateLetter.addActionListener(new GenerateLetterHandler());
 		btnGenerateLetter.setForeground(Color.blue);
 		btnGenerateLetter.setToolTipText("Click here to generate the letter");
-		btnGenerateLetter.setFont(buttonsFont());
-		btnGenerateLetter.addActionListener(new GenerateLetterHandler());
 		panel.add(btnGenerateLetter);
 
 		btnExit = new JButton ("EXIT");
-		btnExit.setBounds(415, 460, 180, 34);
+		btnExit.setBounds(280, 515, 250, 20);
+		btnExit.setFont(changeFontButtons());
+		btnExit.addActionListener(new ExitHandler());
 		btnExit.setForeground(Color.red);
 		btnExit.setToolTipText("Click here to quit");
-		btnExit.setFont(buttonsFont());
-		btnExit.addActionListener(new ExitHandler());
 		panel.add(btnExit);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////
+	public void addComboBoxes() {
+		jcbDay = new JComboBox<String>(storeDays());
+		jcbDay.setBounds(120, 70, 50, 25);
+		jcbDay.setToolTipText("Select day");
+		jcbDay.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
+		jcbDay.setFont(changeLabelsAndTextFieldsFont());
+		jcbDay.addActionListener(new DayHandler());
+		jcbDay.setBackground(changeTextFieldsBackgroundColor());
+		jcbDay.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(jcbDay);
 
-	public boolean validationSpeedLimitAndVehicleSpeed() {
+		jcbMonth = new JComboBox<String>(storeMonths());
+		jcbMonth.setBounds(175, 70, 100, 25);
+		jcbMonth.setToolTipText("Select month");
+		jcbMonth.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
+		jcbMonth.setFont(changeLabelsAndTextFieldsFont());
+		jcbMonth.setBackground(changeTextFieldsBackgroundColor());
+		jcbMonth.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(jcbMonth);
+
+		jcbYear = new JComboBox(storeYears().toArray());
+		jcbYear.setBounds(280, 70, 60, 25);
+		jcbYear.setToolTipText("Select year");
+		jcbYear.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
+		jcbYear.setFont(changeLabelsAndTextFieldsFont());
+		jcbYear.setBackground(changeTextFieldsBackgroundColor());
+		jcbYear.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(jcbYear);
+
+		jcbHour = new JComboBox<String>(storeHours());
+		jcbHour.setBounds(450, 70, 50, 25);
+		jcbHour.setToolTipText("Select hour");
+		jcbHour.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
+		jcbHour.setFont(changeLabelsAndTextFieldsFont());
+		jcbHour.setBackground(changeTextFieldsBackgroundColor());
+		jcbHour.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(jcbHour);
+
+		jcbMinute = new JComboBox(storeMinutes().toArray());
+		jcbMinute.setBounds(520, 70, 50, 25);
+		jcbMinute.setToolTipText("Select minute");
+		jcbMinute.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
+		jcbMinute.setFont(changeLabelsAndTextFieldsFont());
+		jcbMinute.setBackground(changeTextFieldsBackgroundColor());
+		jcbMinute.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(jcbMinute);
+
+		jcbTimeFormat = new JComboBox<String>(storeTimeFormat());
+		jcbTimeFormat.setBounds(610, 70, 60, 25);
+		jcbTimeFormat.setToolTipText("Select format");
+		jcbTimeFormat.setBorder(BorderFactory.createLineBorder(changeTextFieldsAndComboBoxesBorderColor()));
+		jcbTimeFormat.setFont(changeLabelsAndTextFieldsFont());
+		jcbTimeFormat.setBackground(changeTextFieldsBackgroundColor());
+		jcbTimeFormat.setForeground(changeLabelsAndTextFieldsForegroundColor());
+		panel.add(jcbTimeFormat);
+	}
+
+	public boolean checkIfEmptySpeedLimitAndVehicleSpeed() { //this method checks that speed limit and vehicle speed are not empty.
 
 		if (txtSpeedLimit.getText().isEmpty() && txtVehicleSpeed.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(frame, "No speeds entered", "ERROR", JOptionPane.ERROR_MESSAGE); 
+			validation.noSpeedsEntered(); 
 			return true;
 		}
 		else if (txtSpeedLimit.getText().isEmpty()) 
 		{
-			JOptionPane.showMessageDialog(frame, "No speed limit entered", "ERROR", JOptionPane.ERROR_MESSAGE); 
+			validation.noSpeedLimitEntered();
 			return true;
 		}
 		else if (txtVehicleSpeed.getText().isEmpty())
 		{
-			JOptionPane.showMessageDialog(frame, "No vehicle speed entered", "ERROR", JOptionPane.ERROR_MESSAGE); 
+			validation.noVehicleSpeedEntered();
 			return true;
 		}
 		else
@@ -284,43 +430,10 @@ public class SpeedingTicketGUI {
 		}	
 	}
 
-	//////////////////////////////////////////////////////////////////
+	public boolean emptyTextFields() { //this method checks if one of the text fields are empty.
 
-
-	public boolean mainValidation() {
-		String result = txtDriverCity.getText();
-		String result2 = txtLocation.getText();
-
-		if (noEmptyFieldsValidation() == true)
-		{
-			JOptionPane.showMessageDialog(frame, "There is one or more fields not completed, please complete all the fields", "ERROR", JOptionPane.ERROR_MESSAGE); 
-			return true;
-		}
-		else if (noStringWithNumbersValidation(result) == true && noStringWithNumbersValidation(result2) == true)
-		{
-			JOptionPane.showMessageDialog(frame, "city and location errors", "ERROR", JOptionPane.ERROR_MESSAGE); 
-			return true;
-		}
-		else if (noStringWithNumbersValidation(result) == true)
-		{
-			JOptionPane.showMessageDialog(frame, "city error input", "ERROR", JOptionPane.ERROR_MESSAGE); 
-			return true;
-		}
-		else if (noStringWithNumbersValidation(result2) == true)
-		{
-			JOptionPane.showMessageDialog(frame, "location error input", "ERROR", JOptionPane.ERROR_MESSAGE); 
-			return true;
-		}
-		return false;
-	}
-
-	public boolean noEmptyFieldsValidation() {
-
-		if (txtDriverCity.getText().isEmpty() || txtDriverRoad.getText().isEmpty() ||
-				txtDriverPostCode.getText().isEmpty() || txtDriverFlatNo.getText().isEmpty() ||
-				txtDate.getText().isEmpty() || txtTime.getText().isEmpty() || 
-				txtLocation.getText().isEmpty() || txtRegNo.getText().isEmpty() ||
-				txtSpeedLimit.getText().isEmpty() || txtVehicleSpeed.getText().isEmpty())
+		if (txtLocation.getText().isEmpty() || txtRegNo.getText().isEmpty() || 	txtSpeedLimit.getText().isEmpty() 
+				|| txtVehicleSpeed.getText().isEmpty() || txtFileName.getText().isEmpty())
 		{
 			return true;
 		}
@@ -330,97 +443,196 @@ public class SpeedingTicketGUI {
 		}
 	}
 
-	public boolean noStringWithNumbersValidation(String result) {
-		char[] resultChar = result.toCharArray(); 
-		for (int a = 0; a < result.length(); a++)
+	public boolean emptySpacesValdiation(String string) {
+		if(string.contains("  ") || string.startsWith(" ") || string.endsWith(" ")) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean stringValidation(String string) {
+		if(string.matches(validation.checkStringHasNoSpecialCharsAndOneSpaceOnly())) {
+			return true;
+		}
+		else return false;
+		//boolean result = string.matches(validation.checkStringHasNoSpecialCharsAndOneSpaceOnly()); //also allowing a space in between the names.
+		//return result;
+	}
+
+	public boolean regNoValidation() {  //this method checks if the registration number has between 1 and 7 digits.
+
+		if(stringValidation(txtRegNo.getText()) == false || txtRegNo.getText().length() > 7 || emptySpacesValdiation(txtRegNo.getText()) == true)
 		{
-			if (resultChar[a] == '0' || resultChar[a] == '1' || resultChar[a] == '2' || resultChar[a] == '3' || resultChar[a] == '4' || resultChar[a] == '5' || resultChar[a] == '6' || resultChar[a] == '7' || resultChar[a] == '8' || resultChar[a] == '9')
-			{
-				return true;
-			}
+			return true;
+		}
+		return false;
+	}
+
+	public boolean locationValidation() {
+
+		if (stringValidation(txtLocation.getText()) == false || txtLocation.getText().length() > 30 || emptySpacesValdiation(txtLocation.getText()) == true)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public boolean fileNameValidation() {
+		if (stringValidation(txtFileName.getText()) == false || txtFileName.getText().length() > 25 || emptySpacesValdiation(txtFileName.getText()) == true)
+		{
+			return true;
 		}
 		return false;
 	}
 
 
-	class CalculateHandler implements ActionListener { 
+	///////////////////////////////////////////////////////////////////////
+
+	public boolean mainValidation() { //this method is the main validation of the program.
+
+		if (emptyTextFields() == true)
+		{
+			validation.incompletedFields();
+			return true;
+		}
+		else if (locationValidation() == true)
+		{
+			validation.errorsInLocation();
+			return true;
+		}
+		else if (regNoValidation() == true)
+		{
+			validation.errorsInRegNo();
+			return true;
+		}
+		else if (fileNameValidation() == true)
+		{
+			validation.errorsInFileName();
+			txtFileName.setText("");
+			return true;
+		}
+
+		return false;
+	}			 
+
+
+	class DayHandler implements ActionListener {  //this inner class implements the calculate button
 		public void actionPerformed(ActionEvent event) {
-			if (validationSpeedLimitAndVehicleSpeed() == false)
-			{
-				try {
-					int speedLimit = Integer.parseInt(txtSpeedLimit.getText());
-					int vehicleSpeed = Integer.parseInt(txtVehicleSpeed.getText());
-					process = new SpeedingTicket(speedLimit, vehicleSpeed);
-					txtResult.setText(process.getResult(speedLimit,vehicleSpeed));
-				}
-				catch (NumberFormatException ex)
-				{
-					JOptionPane.showMessageDialog(frame, "One or both inputs are invalid, please type in values again", "ERROR", JOptionPane.ERROR_MESSAGE);
-					txtSpeedLimit.setText("");
-					txtVehicleSpeed.setText("");
-					txtResult.setText("");
-				}
+
+			if(jcbDay.getSelectedIndex() == 30) {
+				jcbMonth.removeAllItems();
+				jcbMonth.addItem("January");
+				jcbMonth.addItem("March");
+				jcbMonth.addItem("May");
+				jcbMonth.addItem("July");
+				jcbMonth.addItem("August");
+				jcbMonth.addItem("October");
+				jcbMonth.addItem("December");	
+			}
+			else if(jcbDay.getSelectedIndex() == 29) {
+				jcbMonth.removeAllItems();
+				addAllMonthsButFebruary();
+			}
+			else if(jcbDay.getSelectedIndex() == 28) {
+				jcbMonth.removeAllItems();
+				addAllMonthsButFebruary();
+			}
+			else {
+				jcbMonth.removeAllItems();
+				addAllMonthsButFebruary();		
+				jcbMonth.insertItemAt("February", 1);
 			}
 		}
 	}
 
 
-
-	class ClearHandler implements ActionListener { 
-		public void actionPerformed(ActionEvent event) {
-			txtDate.setText("");
-			txtTime.setText("");
-			txtLocation.setText("");
-			txtRegNo.setText(""); 
-			txtDriverCity.setText("");
-			txtDriverRoad.setText(""); 
-			txtDriverPostCode.setText(""); 
-			txtDriverFlatNo.setText(""); 
-			txtSpeedLimit.setText("");
-			txtVehicleSpeed.setText(""); 
+	public boolean getResult() {
+		try {		
+			txtSpeedLimit.setForeground(changeLabelsAndTextFieldsForegroundColor());
+			txtVehicleSpeed.setForeground(changeLabelsAndTextFieldsForegroundColor());
+			int speedLimit = Integer.parseInt(txtSpeedLimit.getText());
+			int vehicleSpeed = Integer.parseInt(txtVehicleSpeed.getText());
+			changeResultBackgroundColorDependingOnFine(process.getResult(speedLimit, vehicleSpeed));
+			return false;
+		}
+		catch (NumberFormatException ex)
+		{
+			validation.invalidSpeedLimitAndVehicleSpeed();
+			txtSpeedLimit.setForeground(Color.red);
+			txtVehicleSpeed.setForeground(Color.red);
 			txtResult.setText("");
+			txtResult.setBackground(changeTextFieldsBackgroundColor());
+			return true;
 		}
 	}
 
 
-	class GenerateLetterHandler implements ActionListener { 
+	class CalculateHandler implements ActionListener {  //this inner class implements the calculate button
 		public void actionPerformed(ActionEvent event) {
+
+			if (checkIfEmptySpeedLimitAndVehicleSpeed() == false)
+			{
+				getResult();
+			}
+		}
+	}
+
+
+	class ClearHandler implements ActionListener {  //this inner class implements the clear button.
+		public void actionPerformed(ActionEvent event) {
+
+			if(validation.clearConfirmation() == 0)
+			{
+				txtLocation.setText("");
+				txtRegNo.setText(""); 
+				txtSpeedLimit.setText("");
+				txtVehicleSpeed.setText(""); 
+				txtResult.setText("");
+				txtFileName.setText("");
+				txtResult.setBackground(Color.LIGHT_GRAY);
+				jcbDay.setSelectedIndex(0);
+				jcbMonth.setSelectedIndex(0);
+				jcbYear.setSelectedIndex(0);
+				jcbHour.setSelectedIndex(0);
+				jcbMinute.setSelectedIndex(0);
+				jcbTimeFormat.setSelectedIndex(0);
+			}
+		}
+	}
+
+
+	class GenerateLetterHandler implements ActionListener {  //this inner class implements the generate letter button.
+		public void actionPerformed(ActionEvent event) {
+
 			if(mainValidation() == false) 
 			{
-				// do the printing work.
-				int speedLimit = Integer.parseInt(txtSpeedLimit.getText());
-				int vehicleSpeed = Integer.parseInt(txtVehicleSpeed.getText());
-				txtResult.setText(process.getResult(speedLimit,vehicleSpeed));
-				process = new SpeedingTicket(speedLimit, vehicleSpeed);
-				SpeedingTicketPrint print = new SpeedingTicketPrint(txtRegNo.getText(), txtLocation.getText(), txtTime.getText(), txtDate.getText(), txtResult.getText());
-				print.writeToFile();
-				JOptionPane.showMessageDialog(frame, "The letter has been written!");
+				if(getResult() == false) {
+					print = new SpeedingTicketPrint(getFullDate(), getFullTime(), txtLocation.getText().toUpperCase(), txtRegNo.getText().toUpperCase(), txtResult.getText(), txtFileName.getText());
+					print.letterChoice();
+				}
 			}
 		}
 	}
 
 
-	class ExitHandler implements ActionListener { 
+	class InfoHandler implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			int decision = JOptionPane.showConfirmDialog(frame, 
-					"Are you sure you want to exit the Calculator?", 
-					"Exit", 
-					JOptionPane.YES_NO_OPTION);
 
-			if(decision == JOptionPane.YES_OPTION)
-			{
-				JOptionPane.showMessageDialog(frame, "Thank you for using this program!");
-				System.exit(0);
-			}
+			validation.detailsInfoButton();
 		}
 	}
 
 
+	class ExitHandler implements ActionListener {  //this inner class implements the exit button.
+		public void actionPerformed(ActionEvent event) {
+
+			validation.exitConfirmation();
+		}
+	}	
 
 
 
-
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		new SpeedingTicketGUI();
 	}
 }

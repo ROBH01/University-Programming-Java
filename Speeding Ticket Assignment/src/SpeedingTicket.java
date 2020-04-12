@@ -1,41 +1,54 @@
-import javax.swing.*;
+/**
+ * @author Robert Giurgiulescu <s4820793@bournemouth.ac.uk>
+ * @id number s4820793
+ * @version 6
+ * 
+ * Date: 06/04/2018
+ * Class (1/4)
+ * 
+ * This program ...
+ */
+
 
 public class SpeedingTicket {
-	private int speedLimit, vehicleSpeed;
 	private int warning = 4;
 	private int fine1 = 10;
 	private int fine2 = 15;
 	private int fine3 = 20;
-	private JFrame frame;
-	int txtSpeedLimit, txtVehicleSpeed;
-	 
+	private SpeedingTicketValidation validation = new SpeedingTicketValidation();
 
-	public SpeedingTicket(int speedLimit, int vehicleSpeed) {		
-		this.speedLimit = speedLimit;
-		this.vehicleSpeed = vehicleSpeed;
-	}
-
+	/**
+	 * Empty constructor which creates a ?????????????????????
+	 */
 	public SpeedingTicket() {  }
 
-	
+	/**
+	 * Method which takes in the <code>speedLimit</code> and <code>vehicleSpeed</code> from the GUI class
+	 * and returns a string containing the appropriate <code>result</code> back to the GUI class. It can       //I wrote and.. it returns.... should I? or only write into the @return??
+	 * also show a dialog containing a validation message.
+	 * 
+	 * @param speedLimit Speed limit in the area
+	 * @param vehicleSpeed Speed of the vehicle
+	 * @return a string containing the appropriate <code>result</code> based on the speed limit and the speed of the car
+	 */
 	public String getResult(int speedLimit, int vehicleSpeed) {
 		String result = "";
-		
+
 		if (vehicleSpeed < 0)
 		{
-			JOptionPane.showMessageDialog(frame, "Not allowed speeds lower than 0mph", "ERROR", JOptionPane.ERROR_MESSAGE);
+			validation.vehicleSpeedNotLowerThan0();
 		}
 		else if (vehicleSpeed > 275)
 		{
-			JOptionPane.showMessageDialog(frame, "Not allowed speeds higher than 275mph", "ERROR", JOptionPane.ERROR_MESSAGE);
+			validation.vehicleSpeedNotHigherThan275();
 		}
 		else if (speedLimit > 70)
 		{
-			JOptionPane.showMessageDialog(frame, "Not allowed, limits too high", "ERROR", JOptionPane.ERROR_MESSAGE);
+			validation.speedLimitNoHigherThan70();
 		}
-		else if (speedLimit < 5) // error: SL: 10 VS:25... result:  not allowed lower than 5??????? why?
+		else if (speedLimit < 5)
 		{
-			JOptionPane.showMessageDialog(frame, "Not allowed limits lower than 5mph", "ERROR", JOptionPane.ERROR_MESSAGE);
+			validation.speedLimitNoLowerThan5();
 		}
 		else if (vehicleSpeed <= speedLimit)
 		{
@@ -63,10 +76,4 @@ public class SpeedingTicket {
 		}
 		return result;
 	}
-
-
-//	public static void main(String[] args) {
-//		SpeedingTicket process = new SpeedingTicket();
-//		System.out.println(process.getResult());
-//	}
 }

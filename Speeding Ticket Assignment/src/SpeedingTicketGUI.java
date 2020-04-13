@@ -15,11 +15,16 @@
  */
 
 
+import com.sun.javaws.Main;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class SpeedingTicketGUI {
@@ -27,7 +32,7 @@ public class SpeedingTicketGUI {
 	private JFrame frame;
 	private JPanel panel;
 	private JComboBox<String> jcbDay, jcbMonth, jcbYear, jcbHour, jcbMinute, jcbTimeFormat;
-	private Font labelsAndTextFieldsFont = new Font("David", Font.PLAIN, 18);
+	private Font labelsAndTextFieldsFont = new Font("David", Font.PLAIN, 14);
 	private Font fontButtons = new Font("Harlow Solid", Font.BOLD, 15);
 	private Color textFieldsBackgroundColor = new Color(192, 192, 192);
 	private Color labelsAndTextFieldsForegroundColor = new Color(0, 0, 0); 	
@@ -71,7 +76,14 @@ public class SpeedingTicketGUI {
 	 * This method uses a label to add a background picture to the panel
 	 */
 	private void addPanelBackgroundPicture() {
-		JLabel lblBackgroundPicture = new JLabel(new ImageIcon("CarBackgroundPictureGui.png"));
+		InputStream is = Main.class.getClassLoader().getResourceAsStream("CarBackgroundPictureGui.png");
+		Icon icon = null;
+		try {
+			icon = new ImageIcon(ImageIO.read(is));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JLabel lblBackgroundPicture = new JLabel(icon);
 		lblBackgroundPicture.setBounds(0, 0, 800, 540); 
 		lblBackgroundPicture.setVisible(true);
 		panel.add(lblBackgroundPicture);   
@@ -286,11 +298,18 @@ public class SpeedingTicketGUI {
 
 	/**
 	 * This method adds 5 buttons to the interface which are <code>btnInfo</code>, <code>btnCalculate</code>,
-	 * <code>btnWriteLetter</code>, <code>btnClearAll</code>, <code>btnExit</code> and allows the user to interact with the program
+	 * <code>btnWriteLetter</code>, <code>btnClearAll</code> and allows the user to interact with the program
 	 */
 	private void addButtons() {
 		JButton btnInfo = new JButton();
-		btnInfo.setIcon(new ImageIcon("info.png"));
+		InputStream is = Main.class.getClassLoader().getResourceAsStream("info.png");
+		Icon icon = null;
+		try {
+			icon = new ImageIcon(ImageIO.read(is));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		btnInfo.setIcon(icon);
 		btnInfo.setBounds(755, 10, 36, 36);
 		btnInfo.addActionListener(new InfoHandler());
 		btnInfo.setToolTipText("Click for info");
@@ -316,14 +335,6 @@ public class SpeedingTicketGUI {
 		btnClearAll.addActionListener(new ClearAllHandler());
 		btnClearAll.setToolTipText("Click to clear all the fields");
 		panel.add(btnClearAll);
-
-		JButton btnExit = new JButton("Exit");
-		btnExit.setBounds(280, 515, 250, 20);
-		btnExit.setFont(fontButtons);
-		btnExit.setForeground(Color.red);
-		btnExit.addActionListener(new ExitHandler());
-		btnExit.setToolTipText("Click to quit");
-		panel.add(btnExit);
 	}
 
 	/**
@@ -568,16 +579,6 @@ public class SpeedingTicketGUI {
 			validation.infoButton();
 		}
 	}
-
-	/**
-	 * This inner class implements the exit button.
-	 * @author Robert
-	 */
-	class ExitHandler implements ActionListener {  
-		public void actionPerformed(ActionEvent event) {
-			validation.exitConfirmation();
-		}
-	}	
 
 
 	public static void main(String[] args)  {

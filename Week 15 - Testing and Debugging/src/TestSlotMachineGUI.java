@@ -18,7 +18,7 @@ public class TestSlotMachineGUI {
 
 	private void createForm() {
 		frame = new JFrame();
-		frame.setTitle("Student Form");	
+		frame.setTitle("Slot Machine");
 		frame.setSize(400,300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		panel = new JPanel();

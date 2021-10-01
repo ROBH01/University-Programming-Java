@@ -2,7 +2,7 @@
 public class UniversityPeopleTest {
 
 	public static void main(String[] args) {
-		Staff staff1 = new Staff("***REMOVED***", "Bournemouth", "07855488488", "BH55485", "Lecturer", 40000);
+		Staff staff1 = new Staff("Gernie", "Bournemouth", "07855488488", "BH55485", "Lecturer", 40000);
 		Students student1 = new Students("Robert", "G", "07811455884", "s4820793", "FCS");
 		Alumni alumni1 = new Alumni("Gabriel", "Ardwell", "07784455454", 2015, "FCS", "First");
 		

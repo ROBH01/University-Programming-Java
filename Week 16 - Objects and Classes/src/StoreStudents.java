@@ -6,7 +6,7 @@ public class StoreStudents {
 		ArrayList<Student> students = new ArrayList<>();
 		Student student1 = new Student();
 		students.add(student1);
-		Student student2 = new Student("Robert", "Rome", "Bournemouth", "SE", 9250, "***REMOVED***", 'M');
+		Student student2 = new Student("Robert", "Rome", "Bournemouth", "SE", 9250, "25/08/1970", 'M');
 		students.add(student2);
 		Student student3 = new Student();
 		students.add(student3);

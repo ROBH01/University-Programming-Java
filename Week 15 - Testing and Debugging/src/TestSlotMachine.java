@@ -2,7 +2,7 @@ import java.util.Random;
 
 /**
  * 
- * @author ***REMOVED***
+ * @author mc
  * 
  * This program has a number of errors and has been written for you to practice
  * your testing skills on - it should NOT be taken as a model answer.

@@ -50,8 +50,8 @@ public class ProcessStrings {
 	public static void main(String[] args) {
 		ProcessStrings process = new ProcessStrings();
 		System.out.println(process.reverseString("Melanie"));
-		System.out.println(process.putTogether("Melanie", "***REMOVED***"));
-		System.out.println(process.reverseString(process.putTogether("Melanie", "***REMOVED***")));
+		System.out.println(process.putTogether("Melanie", "X"));
+		System.out.println(process.reverseString(process.putTogether("Melanie", "X")));
 		System.out.println(process.validateString("y"));
 		System.out.println(process.countVowels("alumni"));
 	}
